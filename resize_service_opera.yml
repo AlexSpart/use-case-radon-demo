@@ -140,7 +140,7 @@ topology_template:
       properties:
         aws_region: eu-central-1
         function_name: radon-toy-example-image-res
-        zip_file: /tmp/X-test-ImageRes.zip
+        zip_file: /tmp/resources/ImageResize.zip
         function_alias: test
         permission_id: lambda_test_permission01
       requirements:
@@ -150,7 +150,7 @@ topology_template:
     bucket_in:
       type: radon.nodes.s3_bucket
       properties:
-        bucket_name: radon-img3
+        bucket_name: radon-img3-naesheim
         aws_region: eu-central-1
       requirements:
         - host: my-workstation
@@ -158,7 +158,7 @@ topology_template:
     bucket_out:
       type: radon.nodes.s3_bucket
       properties:
-        bucket_name: radon-img3-resized
+        bucket_name: radon-img3-naesheim-resized
         aws_region: eu-central-1
       requirements:
         - host: my-workstation
@@ -171,8 +171,3 @@ topology_template:
         - host: my-workstation
         - receives_notification: aws_lambda
         - bucket: bucket_in
-
-
-
-
-

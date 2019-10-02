@@ -6,7 +6,7 @@
         name: "{{ role_name }}"
         state: present
         description: "{{ role_description }}"
-        assume_role_policy_document: "{{ lookup('file','/tmp/policy.json') }}"
+        assume_role_policy_document: "{{ lookup('file','/tmp/resources/policy.json') }}"
         managed_policy: 
           -  arn:aws:iam::aws:policy/AWSLambdaFullAccess
 

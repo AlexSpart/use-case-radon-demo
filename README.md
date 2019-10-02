@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/naesheim/tosca-blueprint-aws-lambda.svg?style=svg)](https://circleci.com/gh/naesheim/tosca-blueprint-aws-lambda)
+
 # xOpera deploy of simple thumbnail generator example to AWS Lambda
 
 **Note**: This is still only a sandbox - working example with a plenty of room for optimisation. 
