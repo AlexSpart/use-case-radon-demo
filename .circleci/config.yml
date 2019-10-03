@@ -55,33 +55,21 @@ jobs:
           name: upload image to s3
           command: |
             curl https://www.dogsnsw.org.au/media/img/BrowseAllBreed//Irish-Setter.jpg > $IMAGE
-            aws s3 mv $IMAGE s3://radon-img3-naesheim
+            aws s3 mv $IMAGE s3://radon-thumbnail
       - run:
           name: verify content
           command: |
-            aws s3 ls radon-img3-naesheim-resized
+            aws s3 ls radon-thumbnail-resized
       
 workflows:
   version: 2
 
   build-test-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - feature/ci-cd
+      - build
       - deploy:
-          filters:
-            branches:
-              only:
-                - feature/ci-cd
           requires:
             - build
       - test:
-          filters:
-            branches:
-              only:
-                - feature/ci-cd
           requires:
             - deploy
