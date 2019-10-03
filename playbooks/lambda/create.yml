@@ -30,4 +30,4 @@
     - name: Set attributes
       set_stats:
         data: 
-          function_arn: "{{lambda_info.configuration.function_arn}}"
+          function_arn: "{{lambda_info.configuration.function_arn}}:{{func_alias}}"
