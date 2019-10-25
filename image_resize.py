@@ -12,7 +12,7 @@ Gets image from "<bucket>", stores in "<bucket>-resized". Both buckets must exis
 Set thumbnail sizes in THUMBNAIL_SIZES_PX
 
 '''
-THUMBNAIL_SIZES_PX=[100,160,200]
+THUMBNAIL_SIZES_PX=[100,140,200]
 
 
      
