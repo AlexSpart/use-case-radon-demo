@@ -59,6 +59,7 @@ jobs:
       - run:
           name: verify content
           command: |
+            sleep 8s
             aws s3 ls radon-thumbnail-resized
       
 workflows:
