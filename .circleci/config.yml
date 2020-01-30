@@ -34,7 +34,7 @@ jobs:
       - run:
           name: deploy
           command: |
-            opera deploy metahandler demo_use_case.yml
+            opera deploy demo_use_case.yml
 
   # test:
   #   docker:
