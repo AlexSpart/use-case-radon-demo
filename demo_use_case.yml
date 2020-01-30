@@ -165,5 +165,6 @@ topology_template:
       properties:
         aws_region: eu-west-1
         bucket_name: radon-repository
+      requirements:
         - host: my-workstation
         - receives_notification: aws_lambda
