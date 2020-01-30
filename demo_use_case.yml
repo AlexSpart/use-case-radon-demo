@@ -1,7 +1,6 @@
 tosca_definitions_version: tosca_simple_yaml_1_0
 
 node_types:
-
   radon.policies.createRole:
     derived_from: tosca.nodes.SoftwareComponent
     properties:
@@ -67,33 +66,33 @@ node_types:
       - requires_role:
           capability: tosca.capabilities.Compute
           relationship: tosca.relationships.DependsOn 
-      - bucket:
-          capability: tosca.capabilities.Compute  #  placeholder
-          relationship: tosca.relationship.DependsOn
+      # - bucket:
+      #     capability: tosca.capabilities.Compute  #  placeholder
+      #     relationship: tosca.relationship.DependsOn
 
-  radon.nodes.s3_bucket:
-    derived_from: tosca.nodes.SoftwareComponent
-    properties:
-      bucket_name:
-        type: string
-        description: The name of the bucket
-      aws_region:
-        type: string
-    attributes:
-      bucket_name:
-        type: string
-    interfaces:
-      Standard:
-        type: tosca.interfaces.node.lifecycle.Standard
-        create:
-          inputs:
-            bucket_name: {default: { get_property: [SELF, bucket_name] } }
-            aws_region: {default: { get_property: [SELF, aws_region] } }
-          implementation:  playbooks/bucket/create.yml  
-    capabilities:
-      bucket:
-        type: tosca.capabilities.Compute
-        valid_source_types: [radon.nodes.triggers.bucket_notification]
+  # radon.nodes.s3_bucket:
+  #   derived_from: tosca.nodes.SoftwareComponent
+  #   properties:
+  #     bucket_name:
+  #       type: string
+  #       description: The name of the bucket
+  #     aws_region:
+  #       type: string
+  #   attributes:
+  #     bucket_name:
+  #       type: string
+  #   interfaces:
+  #     Standard:
+  #       type: tosca.interfaces.node.lifecycle.Standard
+  #       create:
+  #         inputs:
+  #           bucket_name: {default: { get_property: [SELF, bucket_name] } }
+  #           aws_region: {default: { get_property: [SELF, aws_region] } }
+  #         implementation:  playbooks/bucket/create.yml  
+  #   capabilities:
+  #     bucket:
+  #       type: tosca.capabilities.Compute
+  #       valid_source_types: [radon.nodes.triggers.bucket_notification]
 
   radon.nodes.triggers.bucket_notification:
     derived_from: tosca.nodes.SoftwareComponent
@@ -105,18 +104,16 @@ node_types:
         type: tosca.interfaces.node.lifecycle.Standard
         create:
           inputs:
-            event_name: {default: radon_on_jpg_add}
-            bucket_name: {default: { get_attribute: [SELF, bucket, bucket_name] }  }
+            event_name: {default: trigger_on_zip_jar}
+            bucket_name: {default: { get_attribute: [SELF, bucket_name] }  }
             lambda_function_arn: {default:  {get_attribute: [SELF, receives_notification, function_arn] }}
             events: {default: "s3:ObjectCreated:*" }
-            suffix: {default: .jpg }
             region: {default: { get_property: [SELF, aws_region] } }
           implementation:  playbooks/bucket_notification/create.yml  
     requirements:
       - receives_notification:
           capability: tosca.capabilities.Compute
           relationship: tosca.relationships.DependsOn 
-
 
 topology_template:
   node_templates:
@@ -129,7 +126,7 @@ topology_template:
     aws_lambda_role:
       type: radon.policies.createRole
       properties:
-        aws_region: eu-central-1
+        aws_region: eu-west-1
         role_name: RadonLambda
         role_description: Lambda role
       requirements:
@@ -138,36 +135,35 @@ topology_template:
     aws_lambda:
       type: radon.nodes.function.aws_lambda
       properties:
-        aws_region: eu-central-1
-        function_name: radon-toy-example-image-res
-        zip_file: /tmp/resources/ImageResize.zip
+        aws_region: eu-west-1
+        function_name: demo_meta_uploader
+        zip_file: /tmp/resources/metaupload.zip
         function_alias: test
         permission_id: lambda_test_permission01
       requirements:
         - host: my-workstation
         - requires_role: aws_lambda_role
 
-    bucket_in:
-      type: radon.nodes.s3_bucket
-      properties:
-        bucket_name: radon-thumbnail
-        aws_region: eu-central-1
-      requirements:
-        - host: my-workstation
+    # bucket_in:
+    #   type: radon.nodes.s3_bucket
+    #   properties:
+    #     bucket_name: radon-thumbnail
+    #     aws_region: eu-central-1
+    #   requirements:
+    #     - host: my-workstation
     
-    bucket_out:
-      type: radon.nodes.s3_bucket
-      properties:
-        bucket_name: radon-thumbnail-resized
-        aws_region: eu-central-1
-      requirements:
-        - host: my-workstation
+    # bucket_out:
+    #   type: radon.nodes.s3_bucket
+    #   properties:
+    #     bucket_name: radon-thumbnail-resized
+    #     aws_region: eu-central-1
+    #   requirements:
+    #     - host: my-workstation
 
     bucket_notification:
       type: radon.nodes.triggers.bucket_notification
       properties:
-        aws_region: eu-central-1
-      requirements:
+        aws_region: eu-west-1
+        bucket_name: radon-repository
         - host: my-workstation
         - receives_notification: aws_lambda
-        - bucket: bucket_in

@@ -5,10 +5,10 @@
       lambda:
         name: "{{ function_name }}"
         zip_file: "{{ zip_file }}"
-        runtime: python3.6
+        runtime: python3.7
         region: "{{ aws_region }}"
         role: "{{ aws_role }}"
-        handler: image_resize.lambda_handler
+        handler: metaupload.create_meta
       register: lambda_info
     
     - name: Create function alias name

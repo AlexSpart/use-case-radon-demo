@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.7
     steps:
       - checkout
       - run:
@@ -11,21 +11,19 @@ jobs:
             python3 -m venv venv
             venv/bin/pip3 install -r requirements.txt
             cd venv/lib/python3.6/site-packages
-            zip -r $OLDPWD/ImageResize.zip .
-            cd $OLDPWD
-            zip ImageResize.zip image_resize.py
+            zip metaupload.zip metaupload.py
             mkdir /tmp/resources
-            cp playbooks/aws_role/policy.json /tmp/resources
-            cp ImageResize.zip /tmp/resources
+            mv playbooks/aws_role/policy.json /tmp/resources
+            mv metaupload.zip /tmp/resources
       - persist_to_workspace:
           root: /tmp/resources
           paths:
             - policy.json
-            - ImageResize.zip
+            - metaupload.zip
 
   deploy:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.7
     steps:
       - checkout
       - attach_workspace:
@@ -39,28 +37,28 @@ jobs:
       - run:
           name: deploy
           command: |
-            opera deploy resize resize_service_opera.yml
+            opera deploy use_case demo_use_case.yml
 
-  test:
-    docker:
-      - image: circleci/python:3.7.2
-    environment:
-      IMAGE: setter.jpg
-    steps:
-      - run:
-          name: install dependencies
-          command: |
-            sudo pip3 install awscli
-      - run:
-          name: upload image to s3
-          command: |
-            curl https://www.dogsnsw.org.au/media/img/BrowseAllBreed//Irish-Setter.jpg > $IMAGE
-            aws s3 mv $IMAGE s3://radon-thumbnail
-      - run:
-          name: verify content
-          command: |
-            sleep 8s
-            aws s3 ls radon-thumbnail-resized
+  # test:
+  #   docker:
+  #     - image: circleci/python:3.7.2
+  #   environment:
+  #     IMAGE: setter.jpg
+  #   steps:
+  #     - run:
+  #         name: install dependencies
+  #         command: |
+  #           sudo pip3 install awscli
+  #     - run:
+  #         name: upload image to s3
+  #         command: |
+  #           curl https://www.dogsnsw.org.au/media/img/BrowseAllBreed//Irish-Setter.jpg > $IMAGE
+  #           aws s3 mv $IMAGE s3://radon-thumbnail
+  #     - run:
+  #         name: verify content
+  #         command: |
+  #           sleep 8s
+  #           aws s3 ls radon-thumbnail-resized
       
 workflows:
   version: 2
@@ -71,6 +69,6 @@ workflows:
       - deploy:
           requires:
             - build
-      - test:
-          requires:
-            - deploy
+      # - test:
+      #     requires:
+      #       - deploy
