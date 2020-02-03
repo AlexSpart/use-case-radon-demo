@@ -29,12 +29,12 @@ jobs:
           name: install dependencies
           command: |
             sudo pip3 install boto3
-            sudo pip3 install git+https://github.com/ansible/ansible.git@devel
-            sudo pip3 install opera
+#           sudo pip3 install git+https://github.com/ansible/ansible.git@devel
+            sudo pip3 install opera==0.1.5
       - run:
           name: deploy
           command: |
-            opera deploy demo_use_case.yml
+            opera deploy demo demo_use_case.yml
 
   # test:
   #   docker:
