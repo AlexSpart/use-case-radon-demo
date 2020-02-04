@@ -107,10 +107,10 @@ node_types:
         create:
           inputs:
             event_name: {default: trigger_on_zip_jar}
-            bucket_name: {default: { get_attribute: [SELF, bucket_name] }  }
             lambda_function_arn: {default:  {get_attribute: [SELF, receives_notification, function_arn] }}
             events: {default: "s3:ObjectCreated:*" }
             region: {default: { get_property: [SELF, aws_region] } }
+            bucket_name: {default: { get_property: [SELF, bucket_name] }  }
           implementation:  playbooks/bucket_notification/create.yml  
     requirements:
       - receives_notification:
