@@ -6,6 +6,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 ARTIFACT_TABLE = os.environ['ARTIFACT_TABLE']
+ARTIFACT_TABLE = 'artifacts-test'
 
 def create_meta(event, context):
     dynamodb = boto3.resource('dynamodb')
