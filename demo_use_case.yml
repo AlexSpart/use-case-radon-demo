@@ -99,6 +99,8 @@ node_types:
     properties:
       aws_region:
         type: string
+      bucket_name:
+        type: string
     interfaces:
       Standard:
         type: tosca.interfaces.node.lifecycle.Standard
@@ -147,18 +149,11 @@ topology_template:
     # bucket_in:
     #   type: radon.nodes.s3_bucket
     #   properties:
-    #     bucket_name: radon-thumbnail
-    #     aws_region: eu-central-1
+    #     bucket_name: radon-repository
+    #     aws_region: eu-west-1
     #   requirements:
     #     - host: my-workstation
-    
-    # bucket_out:
-    #   type: radon.nodes.s3_bucket
-    #   properties:
-    #     bucket_name: radon-thumbnail-resized
-    #     aws_region: eu-central-1
-    #   requirements:
-    #     - host: my-workstation
+
 
     bucket_notification:
       type: radon.nodes.triggers.bucket_notification
@@ -168,3 +163,4 @@ topology_template:
       requirements:
         - host: my-workstation
         - receives_notification: aws_lambda
+        # - bucket: bucket_in 
