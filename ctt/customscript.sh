@@ -1,0 +1,1 @@
+curl https://repo.cloudstash.io/praqma/functions-public/aws/python3/Test-App/1.x.x/test-app.zip --upload-file test-app.zip
