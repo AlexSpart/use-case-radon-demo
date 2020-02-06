@@ -13,12 +13,12 @@ topology_template:
       properties:
         path: 'radon-ctt/customscript.sh'
 
-    endpoint_test:
-      type: radon.policies.testing.HttpEndpoint
-      properties:
-        use_https:
-        method: GET
-        hostname: cloudstash.io
-        port:
-        path: /publicrepositories?repoType=Function
-        expected_status:
+    # endpoint_test:
+    #   type: radon.policies.testing.HttpEndpoint
+    #   properties:
+    #     use_https:
+    #     method: GET
+    #     hostname: cloudstash.io
+    #     port:
+    #     path: /publicrepositories?repoType=Function
+    #     expected_status:

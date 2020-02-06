@@ -34,26 +34,26 @@ jobs:
           command: |
             opera deploy demo demo_use_case.yml
 
-  # test:
-  #   docker:
-  #     - image: circleci/python:3.7.2
-  #   environment:
-  #     IMAGE: setter.jpg
-  #   steps:
-  #     - run:
-  #         name: install dependencies
-  #         command: |
-  #           sudo pip3 install awscli
-  #     - run:
-  #         name: upload image to s3
-  #         command: |
-  #           curl https://www.dogsnsw.org.au/media/img/BrowseAllBreed//Irish-Setter.jpg > $IMAGE
-  #           aws s3 mv $IMAGE s3://radon-thumbnail
-  #     - run:
-  #         name: verify content
-  #         command: |
-  #           sleep 8s
-  #           aws s3 ls radon-thumbnail-resized
+  test:
+    docker:
+      - image: circleci/python:3.7.2
+    steps:
+      - run:
+          name: install dependencies
+          command: |
+            sudo pip3 install awscli
+      - run:
+          name: create project
+          command: |
+            curl -X POST localhost:20000/projects
+      - run:
+          name: create testartifact
+          command: |
+            curl -X POST localhost:20000/testartifacts
+      - run:
+          name: verify content
+          command: |
+            curl -X POST localhost:20000/deployments
       
 workflows:
   version: 2
