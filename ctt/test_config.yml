@@ -7,18 +7,19 @@ topology_template:
       attributes:
         private_address: localhost
         public_address: localhost
-
+  
+  policies:
     custom_test:
       type: radon.policies.custom.ShellScript
       properties:
-        path: 'radon-ctt/customscript.sh'
+        path: 'ctt/customscript.sh'
 
-    # endpoint_test:
-    #   type: radon.policies.testing.HttpEndpoint
-    #   properties:
-    #     use_https:
-    #     method: GET
-    #     hostname: cloudstash.io
-    #     port:
-    #     path: /publicrepositories?repoType=Function
-    #     expected_status:
+    endpoint_test:
+      type: radon.policies.testing.HttpEndpoint
+      properties:
+        use_https:
+        method: GET
+        hostname: cloudstash.io
+        port:
+        path: /publicrepositories?repoType=Function
+        expected_status:
