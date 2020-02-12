@@ -45,15 +45,23 @@ jobs:
       - run:
           name: create project
           command: |
-            curl -X POST localhost:20000/projects
+            curl -H  "Content-Type: application/json" -d '{"":"1"}' localhost:20000/projects
       - run:
           name: create testartifact
           command: |
-            curl -X POST localhost:20000/testartifacts
+            curl -H  "Content-Type: application/json" -d '{"":"1"}' localhost:20000/testartifacts
       - run:
-          name: verify content
+          name: create deployment
           command: |
-            curl -X POST localhost:20000/deployments
+            curl -H  "Content-Type: application/json" -d '{"":"1"}' localhost:20000/deployments
+      - run:
+          name: execute test
+          command: |
+            curl -H  "Content-Type: application/json" -d '{"":"1"}' localhost:20000/deployments
+      - run:
+          name: store test results
+          command: |
+
       
 workflows:
   version: 2
@@ -64,6 +72,6 @@ workflows:
       - deploy:
           requires:
             - build
-      # - test:
-      #     requires:
-      #       - deploy
+      - test:
+          requires:
+            - deploy
