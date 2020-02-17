@@ -42,15 +42,22 @@ jobs:
       DATA_ARTI: '{"projectId": 1}'
       DATA_DEP: '{"projectId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
-      TEST_FILE: '$CIRCLE_WORKING_DIRECTORY/radon-ctt/test-app.zip'
+      TEST_FILE: '$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip'
     steps:
+      # - run:
+      #     name: Keyscan Github (HACK)
+      #     command: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - run:
           name: install dependencies
           command: |
             sudo pip3 install awscli
-            git clone git@github.com:radon-h2020/radon-ctt.git
-            cd radon-ctt
+            cd ctt
             zip test-app.zip hello.py
+      - run:
+          name: start test environment
+          command: |
+            git clone https://github.com/radon-h2020/radon-ctt.git
+            cd radon-ctt
             docker build -t ctt .
             docker run -p 8080:8080 -d ctt
       - run:
