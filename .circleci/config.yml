@@ -47,7 +47,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            sudo pip3 install awscli1"
+            sudo pip3 install awscli
             git clone git@github.com:radon-h2020/radon-ctt.git
             cd radon-ctt
             zip test-app.zip hello.py
