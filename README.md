@@ -1,10 +1,10 @@
-[![CircleCI](https://circleci.com/gh/naesheim/tosca-blueprint-aws-lambda.svg?style=svg)](https://circleci.com/gh/naesheim/tosca-blueprint-aws-lambda)
+[![CircleCI](https://circleci.com/gh/naesheim/use-case-radon-demo.svg?style=svg)](https://circleci.com/gh/naesheim/use-case-radon-demo)
 
-#Praqma demo Use Case
+## Praqma Use Case - demo
 
-showcasing the utilization of the Radon tools
-   -  CTT
-   -  xOpera
+_First iteration of RADON validation through subsection of Praqma Use Case._ 
+
+###### This demo use case will utilise and showcase the features of CTT and xOpera, and their ability for automation with CI/CD.
 
 
 

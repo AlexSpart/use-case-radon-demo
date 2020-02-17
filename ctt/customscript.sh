@@ -1,1 +1,1 @@
-curl https://repo.cloudstash.io/radon/functions-public/aws/python3/Test-App/1.x.x/test-app.zip --upload-file /tmp/RadonCTT/projects/1/ctt/test-app.zip
+curl https://repo.cloudstash.io/radon/functions-public/aws/python3/Test-App/1.x.x/test-app.zip --upload-file $TEST_FILE
