@@ -45,6 +45,7 @@ jobs:
       TEST_FILE: '$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip'
     steps:
       - checkout 
+      - setup_remote_docker
       # - run:
       #     name: Keyscan Github (HACK)
       #     command: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
