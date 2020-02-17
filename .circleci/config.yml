@@ -58,7 +58,7 @@ jobs:
           name: start test environment
           command: |
             git clone https://github.com/radon-h2020/radon-ctt.git
-            cd ctt-server
+            cd radon-ctt/ctt-server
             docker build -t ctt .
             docker run -p 8080:8080 -d ctt
       - run:
