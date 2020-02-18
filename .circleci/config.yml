@@ -38,7 +38,7 @@ jobs:
     docker:
       - image: circleci/python:3.7.2
     environment:
-      DATA_PROJ: '{"file": "", "repository_url": "https://github.com/UST-CTT/radon-ctt-sockshop-example.git", "servicetemplate_location": "ctt/test_config.yml"}'
+      DATA_PROJ: '{"file": "", "repository_url": "https://github.com/naesheim/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
       DATA_ARTI: '{"projectId": 1}'
       DATA_DEP: '{"projectId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
@@ -46,9 +46,6 @@ jobs:
     steps:
       - checkout 
       - setup_remote_docker
-      # - run:
-      #     name: Keyscan Github (HACK)
-      #     command: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - run:
           name: install dependencies
           command: |
@@ -58,26 +55,27 @@ jobs:
       - run:
           name: start test environment
           command: |
-            git clone https://github.com/radon-h2020/radon-ctt.git
-            cd radon-ctt/ctt-server
-            docker build -t ctt .
-            docker run -p 8080:8080 -d ctt
+            git clone https://github.com/duelle/CTT.git radon-ctt
+            cd radon-ctt/server
+            pip3 install -r requirements.txt
+            python3 -m swagger_server
+          background: true
       - run:
           name: create project
           command: |
-            curl -H  "Content-Type: application/json" -d $DATA_PROJ http://localhost:8080/RadonCTT/ui/projects
+            curl -H  "Content-Type: application/json" -d $DATA_PROJ http://localhost:20000/RadonCTT/projects
       - run:
           name: create testartifact
           command: |
-            curl -H  "Content-Type: application/json" -d $DATA_ARTI http://localhost:8080/RadonCTT/ui/testartifacts
+            curl -H  "Content-Type: application/json" -d $DATA_ARTI http://localhost:20000/RadonCTT/testartifacts
       - run:
           name: create deployment
           command: |
-            curl -H  "Content-Type: application/json" -d $DATA_DEP http://localhost:8080/RadonCTT/ui/deployments
+            curl -H  "Content-Type: application/json" -d $DATA_DEP http://localhost:20000/RadonCTT/deployments
       - run:
           name: execute test
           command: |
-            curl -H  "Content-Type: application/json" -d $DATA_EXE http://localhost:8080/RadonCTT/ui/executors
+            curl -H  "Content-Type: application/json" -d $DATA_EXE http://localhost:20000/RadonCTT/executors
       - store_test_results:
           path: /tmp/RadonCTT/projects/1/results
 
