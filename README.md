@@ -4,7 +4,7 @@
 
 _First iteration of RADON validation through subsection of Praqma Use Case._ 
 
-###### This demo use case will utilise and showcase the features of CTT and xOpera, and their ability for automation with CI/CD.
+###### This demo use case will utilise and showcase the features of CTT and xOpera, and their ability for automation through CI/CD.
 
 
 
