@@ -38,11 +38,11 @@ jobs:
     docker:
       - image: circleci/python:3.7.2
     environment:
-      DATA_PROJ: '{"file": "", "repository_url": "https://github.com/naesheim/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
-      DATA_ARTI: '{"projectId": 1}'
-      DATA_DEP: '{"projectId": 1}'
-      DATA_EXE: '{"deploymentId": 1}'
-      TEST_FILE: '$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip'
+      DATA_PROJ: "{'file': '', 'repository_url': 'https://github.com/naesheim/use-case-radon-demo.git', 'servicetemplate_location': 'ctt/test_config.yml'}"
+      DATA_ARTI: "{'projectId': 1}"
+      DATA_DEP: "{'projectId': 1}"
+      DATA_EXE: "{'deploymentId': 1}"
+      TEST_FILE: "$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip"
     steps:
       - checkout 
       - run:
