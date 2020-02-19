@@ -40,7 +40,7 @@ jobs:
     environment:
       DATA_PROJ: '{"file": "none", "repository_url": "https://github.com/naesheim/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
       DATA_ARTI: '{"projectId": 1}'
-      DATA_DEP: '{"projectId": 1}'
+      DATA_DEP: '{"testartifactId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
       TEST_FILE: "$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip"
     steps:
@@ -76,7 +76,7 @@ jobs:
       - run:
           name: execute test
           command: |
-            curl -H  "Content-Type: application/json" -d $DATA_EXE http://localhost:20000/RadonCTT/executors
+            curl -H  "Content-Type: application/json" -d "$DATA_EXE" http://localhost:20000/RadonCTT/executors
       - store_test_results:
           path: /tmp/RadonCTT/projects/1/results
 
