@@ -45,7 +45,6 @@ jobs:
       TEST_FILE: "$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip"
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: install dependencies
           command: |
@@ -57,18 +56,26 @@ jobs:
           command: |
             git clone https://github.com/duelle/CTT.git radon-ctt
             cd radon-ctt/Server
-            docker build -t ctt .
-            docker run -p 8080:20000 -d ctt
+            python3 -m venv venv
+            . venv/bin/activate .
+            pip3 install -r requirements.txt
+            python3 -m swagger_server
           background: true
       - run:
           name: create project
           command: |
-            sleep 100 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:8080/RadonCTT/projects
+            sleep 150 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:8080/RadonCTT/projects
       - run:
           name: create testartifact
           command: |
             curl -H  "Content-Type: application/json" -d "$DATA_ARTI" http://localhost:8080/RadonCTT/testartifacts
+      - run:
+          name: create deployment
+          command: |
             curl -H  "Content-Type: application/json" -d "$DATA_DEP" http://localhost:8080/RadonCTT/deployments
+      - run:
+          name: execute test
+          command: |
             curl -H  "Content-Type: application/json" -d $DATA_EXE http://localhost:8080/RadonCTT/executors
       - store_test_results:
           path: /tmp/RadonCTT/projects/1/results
