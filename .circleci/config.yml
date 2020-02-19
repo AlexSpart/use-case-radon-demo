@@ -63,7 +63,7 @@ jobs:
       - run:
           name: create project
           command: |
-            sleep 5 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:8080/RadonCTT/projects
+            sleep 50 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:8080/RadonCTT/projects
       - run:
           name: create testartifact
           command: |
