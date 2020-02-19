@@ -42,7 +42,7 @@ jobs:
       DATA_ARTI: '{"projectId": 1}'
       DATA_DEP: '{"testartifactId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
-      TEST_FILE: "$CIRCLE_WORKING_DIRECTORY/ctt/test-app.zip"
+      TEST_FILE: "/home/circleci/project/ctt/test-app.zip"
     steps:
       - checkout
       - run:
