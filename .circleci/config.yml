@@ -49,8 +49,6 @@ jobs:
           name: install dependencies
           command: |
             sudo pip3 install awscli
-            cd ctt
-            zip test-app.zip hello.py
       - run:
           name: start test environment
           command: |
@@ -76,8 +74,10 @@ jobs:
       - run:
           name: execute test
           command: |
+            cd ctt
+            zip test-app.zip hello.py
             curl -H  "Content-Type: application/json" -d "$DATA_EXE" http://localhost:20000/RadonCTT/executors
-      - store_test_results:
+      - store_artifacts:
           path: /tmp/RadonCTT/projects/1/results
 
 workflows:
