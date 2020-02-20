@@ -65,34 +65,7 @@ node_types:
     requirements:
       - requires_role:
           capability: tosca.capabilities.Compute
-          relationship: tosca.relationships.DependsOn 
-      # - bucket:
-      #     capability: tosca.capabilities.Compute  #  placeholder
-      #     relationship: tosca.relationship.DependsOn
-
-  # radon.nodes.s3_bucket:
-  #   derived_from: tosca.nodes.SoftwareComponent
-  #   properties:
-  #     bucket_name:
-  #       type: string
-  #       description: The name of the bucket
-  #     aws_region:
-  #       type: string
-  #   attributes:
-  #     bucket_name:
-  #       type: string
-  #   interfaces:
-  #     Standard:
-  #       type: tosca.interfaces.node.lifecycle.Standard
-  #       create:
-  #         inputs:
-  #           bucket_name: {default: { get_property: [SELF, bucket_name] } }
-  #           aws_region: {default: { get_property: [SELF, aws_region] } }
-  #         implementation:  playbooks/bucket/create.yml  
-  #   capabilities:
-  #     bucket:
-  #       type: tosca.capabilities.Compute
-  #       valid_source_types: [radon.nodes.triggers.bucket_notification]
+          relationship: tosca.relationships.DependsOn
 
   radon.nodes.triggers.bucket_notification:
     derived_from: tosca.nodes.SoftwareComponent
@@ -146,14 +119,6 @@ topology_template:
         - host: my-workstation
         - requires_role: aws_lambda_role
 
-    # bucket_in:
-    #   type: radon.nodes.s3_bucket
-    #   properties:
-    #     bucket_name: radon-repository
-    #     aws_region: eu-west-1
-    #   requirements:
-    #     - host: my-workstation
-
 
     bucket_notification:
       type: radon.nodes.triggers.bucket_notification
@@ -163,4 +128,3 @@ topology_template:
       requirements:
         - host: my-workstation
         - receives_notification: aws_lambda
-        # - bucket: bucket_in 
