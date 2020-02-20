@@ -119,7 +119,6 @@ topology_template:
         - host: my-workstation
         - requires_role: aws_lambda_role
 
-
     bucket_notification:
       type: radon.nodes.triggers.bucket_notification
       properties:
