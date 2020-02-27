@@ -111,7 +111,7 @@ topology_template:
       type: radon.nodes.function.aws_lambda
       properties:
         aws_region: eu-west-1
-        function_name: demo_meta_uploader
+        function_name: demo_meta_uploader_test
         zip_file: /tmp/resources/metaupload.zip
         function_alias: test
         permission_id: lambda_test_permission01
