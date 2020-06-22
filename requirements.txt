@@ -1,2 +1,3 @@
 boto3
 opera==0.1.5
+jq
