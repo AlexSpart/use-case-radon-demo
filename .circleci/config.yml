@@ -84,8 +84,12 @@ jobs:
       - run:
           name: create project
           command: |
-           export CTT_PROJECT_UUID=$(curl -X POST "http://localhost:18080/RadonCTT/project" -H "accept: */*" -H "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo-AlexSpart\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}")
+           export px=$(curl -X POST "http://localhost:18080/RadonCTT/project" -H "accept: */*" -H "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo-AlexSpart\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}")
+           echo $px
+           
+           export CTT_PROJECT_UUID=$(./curl_uuid.sh \"http://localhost:18080/RadonCTT/project\" \"{\\\"name\\\":\\\"SockShop\\\",\\\"repository_url\\\":\\\"https://github.com/AlexSpart/use-case-radon-demo.git\\\"}\")
            echo $CTT_PROJECT_UUID
+
       - run:
           name: create testartifact
           command: |
