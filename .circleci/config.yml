@@ -62,7 +62,8 @@ jobs:
       - run:
           name: create project
           command: |
-            sleep 10 && echo "ok 1"
+            sleep 10 && curl -X POST "http://localhost:18080/RadonCTT/project" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo-AlexSpart\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}"
+
       - run:
           name: create testartifact
           command: |
