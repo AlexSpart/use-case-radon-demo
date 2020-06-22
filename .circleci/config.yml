@@ -43,6 +43,27 @@ jobs:
       DATA_DEP: '{"testartifactId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
       TEST_FILE: "/home/circleci/project/ctt/test-app.zip"
+      
+      GMT_DOCKER_COMPOSE_URL: "https://github.com/radon-h2020/radon-gmt/blob/project/radon/docker-compose.yml"
+      GMT_HTTP_PORT: "18080"
+      PARTICLES_URL: "https://github.com/radon-h2020/radon-particles.git"
+      PARTICLES_BRANCH: "master"
+      PARTICLES_DIR: "/tmp/radon-particles"
+      CTT_DOCKER_NAME: "RadonCTT"
+      CTT_SERVER_DOCKER: "radonconsortium/radon-ctt"
+      CTT_VOLUME: "/tmp/RadonCTT"
+      CTT_PORT: "18080"
+      CTT_EXT_PORT: "7999"
+      CTT_ENDPOINT: "http://localhost:${CTT_PORT}/RadonCTT"
+      CTT_RESULT_FILE: "/tmp/result.zip"
+      SOCKSHOP_DEMO_URL: "https://github.com/AlexSpart/use-case-radon-demo.git"
+      SOCKSHOP_DEMO_BRANCH: "circleci-project-setup"
+      SOCKSHOP_DEMO_DIR: "/tmp/demo-ctt-sockshop"
+      SUT_CSAR_FN: "sut.csar"
+      SUT_CSAR: "/tmp/${SUT_CSAR_FN}"
+      TI_CSAR_FN: "ti.csar"
+      TI_CSAR: "/tmp/${TI_CSAR_FN}"
+      
     steps:
       - checkout
       - run:
@@ -62,7 +83,7 @@ jobs:
       - run:
           name: create project
           command: |
-           sleep 120 && curl -X POST "http://localhost:18080/RadonCTT/project" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo-AlexSpart\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}"
+           export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"whatever_\\\",\\\"repository_url\\\":\\\"${SOCKSHOP_DEMO_URL}\\\"}\")
       - run:
           name: create testartifact
           command: |
