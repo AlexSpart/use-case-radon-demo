@@ -1,95 +1,21 @@
 version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.7
+  build-and-test:
+    executor: python/default
     steps:
       - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
       - run:
-          name: pack python folder
-          command: |
-            zip metaupload.zip metaupload.py
-            mkdir /tmp/resources
-            mv playbooks/aws_role/policy.json /tmp/resources
-            mv metaupload.zip /tmp/resources
-      - persist_to_workspace:
-          root: /tmp/resources
-          paths:
-            - policy.json
-            - metaupload.zip
-
-  deploy:
-    docker:
-      - image: circleci/python:3.7
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/resources
-      - run:
-          name: install dependencies
-          command: |
-            sudo pip install -r requirements.txt
-      - run:
-          name: deploy
-          command: |
-            opera deploy demo demo_use_case.yml
-
-  test:
-    docker:
-      - image: circleci/python:3.7.2
-    environment:
-      DATA_PROJ: '{"file": "none", "repository_url": "https://github.com/naesheim/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
-      DATA_ARTI: '{"projectId": 1}'
-      DATA_DEP: '{"testartifactId": 1}'
-      DATA_EXE: '{"deploymentId": 1}'
-      TEST_FILE: "/home/circleci/project/ctt/test-app.zip"
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            sudo pip3 install awscli
-      - run:
-          name: start test environment
-          command: |
-            git clone https://github.com/duelle/CTT.git radon-ctt
-            cd radon-ctt/Server
-            python3 -m venv venv
-            . venv/bin/activate .
-            pip3 install -r requirements.txt
-            python3 -m swagger_server
-          background: true
-      - run:
-          name: create project
-          command: |
-            sleep 150 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:20000/RadonCTT/projects
-      - run:
-          name: create testartifact
-          command: |
-            curl -H  "Content-Type: application/json" -d "$DATA_ARTI" http://localhost:20000/RadonCTT/testartifacts
-      - run:
-          name: create deployment
-          command: |
-            curl -H  "Content-Type: application/json" -d "$DATA_DEP" http://localhost:20000/RadonCTT/deployments
-      - run:
-          name: execute test
-          command: |
-            cd ctt
-            zip test-app.zip hello.py
-            echo $TEST_FILE
-            curl -H  "Content-Type: application/json" -d "$DATA_EXE" http://localhost:20000/RadonCTT/executors
-      - store_artifacts:
-          path: /tmp/RadonCTT/projects/1/results
+          command: ./manage.py test
+          name: Test
 
 workflows:
-  version: 2
-
-  build-test-deploy:
+  main:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-      - test:
-          requires:
-            - deploy
+      - build-and-test
