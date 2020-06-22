@@ -38,7 +38,7 @@ jobs:
     docker:
       - image: circleci/python:3.7.2
     environment:
-      DATA_PROJ: '{"file": "none", "repository_url": "https://github.com/naesheim/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
+      DATA_PROJ: '{"file": "none", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git", "servicetemplate_location": "ctt/test_config.yml"}'
       DATA_ARTI: '{"projectId": 1}'
       DATA_DEP: '{"testartifactId": 1}'
       DATA_EXE: '{"deploymentId": 1}'
@@ -62,8 +62,7 @@ jobs:
       - run:
           name: create project
           command: |
-            sleep 10 && curl -X POST "http://localhost:18080/RadonCTT/project" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo-AlexSpart\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}"
-
+            sleep 15 && curl -H  "Content-Type: application/json" -d "$DATA_PROJ" http://localhost:18080/RadonCTT/project
       - run:
           name: create testartifact
           command: |
