@@ -85,7 +85,8 @@ jobs:
           command: |
            export alex="karamela"
            echo $alex
-           export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"whatever\\\",\\\"repository_url\\\":\\\"${SOCKSHOP_DEMO_URL}\\\"}\")
+           export CTT_PROJECT_UUID="$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"whatever\\\",\\\"repository_url\\\":\\\"${SOCKSHOP_DEMO_URL}\\\"}\")"
+           echo CTT_PROJECT_UUID
       - run:
           name: create testartifact
           command: |
