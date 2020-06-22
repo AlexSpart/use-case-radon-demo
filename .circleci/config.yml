@@ -52,7 +52,12 @@ jobs:
       - run:
           name: start test environment
           command: |
-            docker run -t -i --name RadonCTT -p 18080:18080 -v /var/run/docker.sock:/var/run/docker.sock radonconsortium/radon-ctt:latest
+             git clone https://github.com/duelle/CTT.git radon-ctt
+             cd radon-ctt/cct-server
+             python3 -m venv venv
+             . venv/bin/activate .
+             pip3 install -r requirements.txt
+             python3 -m openapi_server
           background: true
       - run:
           name: create project
