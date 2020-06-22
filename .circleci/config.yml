@@ -52,7 +52,7 @@ jobs:
       - run:
           name: start test environment
           command: |
-              git clone https://github.com/duelle/CTT.git radon-ctt
+              git https://github.com/radon-h2020/radon-ctt.git
               cd radon-ctt/ctt-server
               python3 -m venv venv
               . venv/bin/activate .
