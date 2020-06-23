@@ -4,7 +4,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'python --version'
-                echo 'ok VVre mlk'
+                echo 'ok VVvvre mlk'
             }
         }
     }
