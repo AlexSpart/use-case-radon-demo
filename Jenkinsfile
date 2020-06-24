@@ -48,9 +48,7 @@ pipeline {
                 TI_DEPLOYMENT_URL="http://localhost:${TI_DEPLOYMENT_PORT}"
                 }
             steps {
-                sh 'mkdir -p ${CTT_VOLUME}'
                 sh 'docker run --rm --name "${CTT_DOCKER_NAME}" -d -p "127.0.0.1:${CTT_EXT_PORT}:${CTT_PORT}" -v /var/run/docker.sock:/var/run/docker.sock -v "${CTT_VOLUME}:/tmp/RadonCTT" "${CTT_SERVER_DOCKER}:${CTT_SERVER_DOCKER_TAG}"'
-                sh 'git clone --single-branch --branch "${REPO_DEMO_BRANCH}" "${REPO_DEMO_URL}" "${REPO_DEMO_DIR}"'
 
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
