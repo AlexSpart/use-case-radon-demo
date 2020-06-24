@@ -63,7 +63,7 @@ pipeline {
                 // CTT: Create Deployment
                 sh 'export CTT_DEPLOYMENT_UUID=$(./curl_uuid.sh  \"${CTT_ENDPOINT}/deployment\" \"{\\\"testartifact_uuid\\\":\\\"${CTT_TESTARTIFACT_UUID}\\\"}\")'
                 // Give deployments some time to succeed.
-                sh 'sleep 120'
+                sh 'sleep 12'
                 sh 'echo \"DEPLOYMENT_UUID: ${CTT_DEPLOYMENT_UUID}\"'
                 
                 sh 'docker stop RadonCTT'
