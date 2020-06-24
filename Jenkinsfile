@@ -52,10 +52,8 @@ pipeline {
                 
                 }
             steps {
-                sh 'echo $PATH'
-                sh 'export PATH="/home/jenkins/.local/lib/python3.6/site-packages:$PATH"'
-                sh 'echo $PATH'
-                
+                sh 'export $PATH'
+               
                 sh 'docker ps'
                 sh 'docker ps -a'
                 sh 'docker run --rm --name "${CTT_DOCKER_NAME}" -d -p "127.0.0.1:${CTT_EXT_PORT}:${CTT_PORT}" -v /var/run/docker.sock:/var/run/docker.sock -v "${CTT_VOLUME}:/tmp/RadonCTT" "${CTT_SERVER_DOCKER}:${CTT_SERVER_DOCKER_TAG}"'
