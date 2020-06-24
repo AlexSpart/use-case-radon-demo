@@ -21,6 +21,8 @@ pipeline {
             SUT_CSAR="/tmp/${SUT_CSAR_FN}"
             TI_CSAR_FN="ti.csar"
             TI_CSAR="/tmp/${TI_CSAR_FN}"
+            PATH = "/home/jenkins/.local/lib/python3.6/site-packages/:$PATH"
+
             }
     stages {
         stage('Install requirements') {
@@ -48,7 +50,6 @@ pipeline {
                 TI_DEPLOYMENT_PORT="5000"
                 TI_DEPLOYMENT_URL="http://localhost:${TI_DEPLOYMENT_PORT}"
                 
-                PATH = "/home/jenkins/.local/lib/python3.6/site-packages/:$PATH"
                 }
             steps {
                 sh 'echo $PATH'
