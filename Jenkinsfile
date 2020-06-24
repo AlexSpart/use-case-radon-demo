@@ -47,6 +47,7 @@ pipeline {
                 TI_EXPORT_URL="http://127.0.0.1:${GMT_HTTP_PORT}/winery/servicetemplates/radon.blueprints.testing/JMeterMasterOnly/?yaml&csar"
                 TI_DEPLOYMENT_PORT="5000"
                 TI_DEPLOYMENT_URL="http://localhost:${TI_DEPLOYMENT_PORT}"
+                PATH = "/hot/new/bin:$PATH"
                 }
             steps {
                 sh 'docker ps'
@@ -72,7 +73,7 @@ pipeline {
                 ENV_VAR3 = "exmp"
             }
             steps {
-                sh 'echo "finish re"'
+                sh 'echo "finish re mano"'
 
             }
         }
