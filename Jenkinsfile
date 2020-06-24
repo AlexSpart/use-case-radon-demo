@@ -36,6 +36,7 @@ pipeline {
         }
         stage('clone repo') {
             steps {
+                sh 'rm -rf use-case-radon-demo'
                 sh 'git clone https://github.com/AlexSpart/use-case-radon-demo.git'
                 sh 'cd use-case-radon-demo'
             }
