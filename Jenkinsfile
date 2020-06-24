@@ -69,7 +69,7 @@ pipeline {
                 ENV_VAR3 = "exmp"
             }
             steps {
-                sh 'echo "finish gia na doume"'
+                sh 'echo "finish gia na doume....."'
 
             }
         }
