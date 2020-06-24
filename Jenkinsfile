@@ -52,7 +52,7 @@ pipeline {
                 
                 }
             steps {
-                sh 'export $PATH'
+                sh 'export PATH'
                
                 sh 'docker ps'
                 sh 'docker ps -a'
