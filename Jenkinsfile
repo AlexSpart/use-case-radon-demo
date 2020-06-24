@@ -48,6 +48,8 @@ pipeline {
                 TI_DEPLOYMENT_URL="http://localhost:${TI_DEPLOYMENT_PORT}"
                 }
             steps {
+                sh 'jq --version'
+                sh 'which -a jq'
                 sh 'docker ps'
                 sh 'docker ps -a'
                 sh 'docker rm -f $(docker ps -a -q)'
