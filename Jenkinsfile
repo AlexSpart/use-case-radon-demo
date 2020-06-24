@@ -21,7 +21,8 @@ pipeline {
             SUT_CSAR="/tmp/${SUT_CSAR_FN}"
             TI_CSAR_FN="ti.csar"
             TI_CSAR="/tmp/${TI_CSAR_FN}"
-            PATH = "/home/jenkins/.local/lib/python3.6/site-packages/:$PATH"
+            PATH = " /usr/local/bin/jq:$PATH"
+           
 
             }
     stages {
@@ -53,6 +54,7 @@ pipeline {
                 }
             steps {
                 sh 'export PATH'
+                sh 'echo $PATH'
                
                 sh 'docker ps'
                 sh 'docker ps -a'
