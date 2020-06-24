@@ -34,7 +34,12 @@ pipeline {
                 sh 'python3 -m pip install docker jq ansible --user'
             }
         }
-
+        stage('clone repo') {
+            steps {
+                sh 'git clone https://github.com/AlexSpart/use-case-radon-demo.git'
+                sh 'cd use-case-radon-demo'
+            }
+        }
         stage('\u27A1 Verify Docker') {
             steps {
                 sh 'docker run --rm hello-world'
@@ -63,7 +68,7 @@ pipeline {
                 ENV_VAR3 = "exmp"
             }
             steps {
-                sh 'echo "finishh"'
+                sh 'echo "finish"'
 
             }
         }
