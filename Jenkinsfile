@@ -71,7 +71,7 @@ pipeline {
                 ENV_VAR3 = "exmp"
             }
             steps {
-                sh 'echo "finisshh"'
+                sh 'echo "finish"'
 
             }
         }
