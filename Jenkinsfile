@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 pipeline {
     agent any
         environment {
@@ -47,7 +47,8 @@ pipeline {
                 TI_EXPORT_URL="http://127.0.0.1:${GMT_HTTP_PORT}/winery/servicetemplates/radon.blueprints.testing/JMeterMasterOnly/?yaml&csar"
                 TI_DEPLOYMENT_PORT="5000"
                 TI_DEPLOYMENT_URL="http://localhost:${TI_DEPLOYMENT_PORT}"
-                PATH = "/hot/new/bin:$PATH"
+                
+                PATH = "/home/jenkins/.local/lib/python3.6/site-packages/:$PATH"
                 }
             steps {
                 sh 'docker ps'
