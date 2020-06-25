@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 
-                sh 'python3 -m pip install docker jq ansible --user'
+                sh 'python3 -m pip install docker ansible --user'
             }
         }
         stage('\u27A1 Verify Docker') {
