@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 pipeline {
-    agent any
+    agent master
         environment {
             GMT_DOCKER_COMPOSE_URL="https://github.com/radon-h2020/radon-gmt/blob/project/radon/docker-compose.yml"
             GMT_HTTP_PORT="18080"
