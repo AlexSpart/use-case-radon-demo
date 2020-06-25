@@ -63,6 +63,8 @@ pipeline {
                 sh 'export px=$(curl -X POST "${CTT_ENDPOINT}/project" -H "accept: */*" -H "Content-Type: application/json" -d "{\"name\":\"use-case-radon-demo\",\"repository_url\":\"https://github.com/AlexSpart/use-case-radon-demo.git\"}")'
                 sh 'echo $px'
                 
+                sh 'docker logs RadonCTT'
+                
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
                 sh 'echo "$CTT_PROJECT_UUID"'
