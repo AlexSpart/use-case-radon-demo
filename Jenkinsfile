@@ -82,7 +82,7 @@ pipeline {
                 ENV_VAR3 = "exmp"
             }
             steps {
-                sh 'echo "finish re mano"'
+                sh 'echo "finish"'
 
             }
         }
