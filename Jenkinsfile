@@ -56,8 +56,11 @@ pipeline {
                 sh 'curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\''
                 sh 'export px=$(curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\')'
                 sh 'echo "Echoing px...."'
-                sh 'echo $px'
+                sh 'echo px'
                 
+                sh 'wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq'
+                sh 'chmod +x jq'
+                sh 'mv jq /home/jenkins/.local/bin'
                 
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
