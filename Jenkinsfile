@@ -21,7 +21,7 @@ pipeline {
             SUT_CSAR="/tmp/${SUT_CSAR_FN}"
             TI_CSAR_FN="ti.csar"
             TI_CSAR="/tmp/${TI_CSAR_FN}"
-            PATH = " /usr/local/bin/jq:$PATH"
+            PATH = " /home/jenkins/.local/bin:$PATH"
            
 
             }
@@ -61,6 +61,8 @@ pipeline {
                 sh 'wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq'
                 sh 'chmod +x jq'
                 sh 'mv jq /home/jenkins/.local/bin'
+                
+                sh 'ls /home/jenkins/.local/bin'
                 
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
