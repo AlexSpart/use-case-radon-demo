@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 
-                sh 'python3 -m pip install docker ansible jq yq--user'
+                sh 'python3 -m pip install docker ansible jq yq  --user'
             }
         }
         stage('CALL CTT') {
