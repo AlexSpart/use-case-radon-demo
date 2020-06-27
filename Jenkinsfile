@@ -32,12 +32,7 @@ pipeline {
             }
             steps {
                 
-                sh 'python3 -m pip install docker ansible --user'
-            }
-        }
-        stage('\u27A1 Verify Docker') {
-            steps {
-                sh 'docker run --rm hello-world'
+                sh 'python3 -m pip install docker ansible jq yq--user'
             }
         }
         stage('CALL CTT') {
@@ -53,19 +48,16 @@ pipeline {
                 
                 }
             steps {
-                sh 'export PATH'
                 sh 'echo $PATH'
-               
                 sh 'docker ps'
-                sh 'docker ps -a'
                 sh 'docker run --rm --name "${CTT_DOCKER_NAME}" -d -p "127.0.0.1:${CTT_EXT_PORT}:${CTT_PORT}" -v /var/run/docker.sock:/var/run/docker.sock -v "${CTT_VOLUME}:/tmp/RadonCTT" "${CTT_SERVER_DOCKER}:${CTT_SERVER_DOCKER_TAG}"'
                 sh 'sleep 10'
                 
                 sh 'curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\''
                 sh 'export px=$(curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\')'
+                sh 'echo "Echoing px...."'
                 sh 'echo $px'
                 
-                sh 'docker logs RadonCTT'
                 
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
