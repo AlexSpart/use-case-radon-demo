@@ -22,17 +22,14 @@ pipeline {
             TI_CSAR_FN="ti.csar"
             TI_CSAR="/tmp/${TI_CSAR_FN}"
             PATH = " /home/jenkins/.local/bin:$PATH"
-           
-
             }
     stages {
         stage('Install requirements') {
-            environment {
-                ENV_VAR2 = "exmp"
-            }
             steps {
-                
-                sh 'python3 -m pip install docker ansible jq yq  --user'
+                sh 'python3 -m pip install docker ansible --user'
+                sh 'wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq'
+                sh 'chmod +x jq'
+                sh 'mv jq /home/jenkins/.local/bin'
             }
         }
         stage('CALL CTT') {
@@ -49,24 +46,23 @@ pipeline {
                 }
             steps {
                 sh 'echo $PATH'
-                sh 'docker ps'
                 sh 'docker run --rm --name "${CTT_DOCKER_NAME}" -d -p "127.0.0.1:${CTT_EXT_PORT}:${CTT_PORT}" -v /var/run/docker.sock:/var/run/docker.sock -v "${CTT_VOLUME}:/tmp/RadonCTT" "${CTT_SERVER_DOCKER}:${CTT_SERVER_DOCKER_TAG}"'
                 sh 'sleep 10'
                 
                 sh 'curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\''
                 sh 'export px=$(curl -X POST http://localhost:7999/RadonCTT/project -H \'accept: */*\' -H \'Content-Type: application/json\' -d \'{ "name": "use-case-radon-demo", "repository_url": "https://github.com/AlexSpart/use-case-radon-demo.git" }\')'
                 sh 'echo "Echoing px...."'
-                sh 'echo px'
-                
-                sh 'wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq'
-                sh 'chmod +x jq'
-                sh 'mv jq /home/jenkins/.local/bin'
+                sh 'echo $px'
+                sh 'echo \"px.. : ${px}\"'
+
                 
                 sh 'ls /home/jenkins/.local/bin'
                 
                 // CTT: Create Project
                 sh 'export CTT_PROJECT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\")'
                 sh 'echo "$CTT_PROJECT_UUID"'
+                sh 'echo "${CTT_PROJECT_UUID}"'
+
                 // CTT: Create Test-Artifact
                 sh 'export CTT_TESTARTIFACT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/testartifact\" \"{\\\"project_uuid\\\":\\\"${CTT_PROJECT_UUID}\\\",\\\"sut_tosca_path\\\":\\\"radon-ctt/${SUT_CSAR_FN}\\\",\\\"ti_tosca_path\\\":\\\"radon-ctt/${TI_CSAR_FN}\\\"}\")'
                 // CTT: Create Deployment
