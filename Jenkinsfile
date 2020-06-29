@@ -96,6 +96,8 @@ pipeline {
         }
         stage('Obtain results') {
             steps {
+                sh 'docker rm -f $(docker ps -a -q) 
+                sh 'docker rm -f $(docker ps -a -q) 
                 sh 'echo "See the results"'
             }
         }
