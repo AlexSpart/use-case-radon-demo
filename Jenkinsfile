@@ -96,7 +96,7 @@ pipeline {
         }
         stage('Obtain results') {
             steps {
-                sh 'echo "see the results"'
+                sh 'echo "See the results"'
             }
         }
         stage('After script actions') {
