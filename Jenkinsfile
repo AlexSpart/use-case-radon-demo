@@ -32,7 +32,12 @@ pipeline {
                 sh 'mv jq /home/jenkins/.local/bin'
             }
         }
-        stage('CALL CTT') {
+        stage('Start Winery') {
+            steps {
+                sh 'echo "Pull winery & Clone RADON-particles & Start winery"'
+            }
+        }
+        stage('Start CTT server') {
             environment {
                 NAME="CTT-master"
                 CTT_SERVER_DOCKER_TAG="latest"
@@ -61,27 +66,42 @@ pipeline {
                 script{
                     env.CTT_PROJECT_UUID = sh(returnStdout: true, script: './curl_uuid.sh \"${CTT_ENDPOINT}/project\" \"{\\\"name\\\":\\\"use-case-radon-demo\\\",\\\"repository_url\\\":\\\"${REPO_DEMO_URL}\\\"}\"').trim()
                 }
-                sh 'echo printenv try:'
-                sh 'printenv | sort'
-                
+                sh 'echo $CTT_PROJECT_UUID'
                 // CTT: Create Test-Artifact
                 sh 'export CTT_TESTARTIFACT_UUID=$(./curl_uuid.sh \"${CTT_ENDPOINT}/testartifact\" \"{\\\"project_uuid\\\":\\\"${CTT_PROJECT_UUID}\\\",\\\"sut_tosca_path\\\":\\\"radon-ctt/${SUT_CSAR_FN}\\\",\\\"ti_tosca_path\\\":\\\"radon-ctt/${TI_CSAR_FN}\\\"}\")'
+                script{
+                    env.CTT_TESTARTIFACT_UUID = sh(returnStdout: true, script: './curl_uuid.sh \"${CTT_ENDPOINT}/testartifact\" \"{\\\"project_uuid\\\":\\\"${CTT_PROJECT_UUID}\\\",\\\"sut_tosca_path\\\":\\\"radon-ctt/${SUT_CSAR_FN}\\\",\\\"ti_tosca_path\\\":\\\"radon-ctt/${TI_CSAR_FN}\\\"}\"').trim()
+                }
+                sh 'echo $CTT_TESTARTIFACT_UUID'
                 // CTT: Create Deployment
                 sh 'export CTT_DEPLOYMENT_UUID=$(./curl_uuid.sh  \"${CTT_ENDPOINT}/deployment\" \"{\\\"testartifact_uuid\\\":\\\"${CTT_TESTARTIFACT_UUID}\\\"}\")'
+                script{
+                    env.CTT_DEPLOYMENT_UUID = sh(returnStdout: true, script: './curl_uuid.sh  \"${CTT_ENDPOINT}/deployment\" \"{\\\"testartifact_uuid\\\":\\\"${CTT_TESTARTIFACT_UUID}\\\"}\"').trim()
+                }
+                sh 'echo $CTT_DEPLOYMENT_UUID'
+
                 // Give deployments some time to succeed.
                 sh 'sleep 2'
                 sh 'echo \"DEPLOYMENT_UUID: ${CTT_DEPLOYMENT_UUID}\"'
                 
                 sh 'docker stop RadonCTT'
+                sh 'echo printenv try:'
+                sh 'printenv | sort'
             }
         }
         stage('Test functionality') {
-            environment {
-                ENV_VAR3 = "exmp"
+            steps {
+                sh 'echo "test functionality"'
             }
+        }
+        stage('Obtain results') {
+            steps {
+                sh 'echo "see the results"'
+            }
+        }
+        stage('After script actions') {
             steps {
                 sh 'echo "finish"'
-
             }
         }
     }
